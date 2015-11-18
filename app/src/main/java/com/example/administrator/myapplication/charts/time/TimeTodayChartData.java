@@ -1,10 +1,13 @@
 package com.example.administrator.myapplication.charts.time;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.example.administrator.myapplication.charts.ChartData;
 import com.example.administrator.myapplication.charts.utils.ModelUtils;
 import com.example.administrator.myapplication.charts.utils.StringUtils;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -83,14 +86,48 @@ public class TimeTodayChartData implements ChartData{
         this.date = ModelUtils.getStringValue(paramMap, "date");
         this.yestclose = (float) ModelUtils.getDoubleValue(paramMap, "yestclose", 0.0);
         this.count = (int) ModelUtils.getDoubleValue(paramMap, "count", 0.0);
-        List localList = ModelUtils.getListValue(paramMap, "data");
-        if (StringUtils.hasText(this.symbol) && StringUtils.hasText(this.name) && StringUtils.hasText(this.date) && this.count > 0 && localList != null && localList.size() > 0){
+        List localList1 = ModelUtils.getListValue(paramMap, "data");
+        if (StringUtils.hasText(this.symbol) && StringUtils.hasText(this.name) && StringUtils.hasText(this.date) && this.count > 0 && localList1 != null && localList1.size() > 0){
+            this.date = this.date.substring(0, 4) + "-" + this.date.substring(4, 6) + "-" + this.date.substring(6);
+            this.length = localList1.size();
+            this.times = new String[this.length];
+            this.prices = new float[this.length];
+            this.avgPrices = new float[this.length];
+            this.volumes = new float[this.length];
+            int i = 0;
+            Iterator localIterator = localList1.iterator();
+            while (localIterator.hasNext()){
+                List localList2 = (List) localIterator.next();
+                String str1 = (String) localList2.get(0);
+                String str2 = str1.substring(0, 2) + ":" + str1.substring(2);
+                this.times[i] = str2;
+                float f1 = (float) localList2.get(1);
+                this.prices[i] = f1;
+                if (f1 > this.high){
+                    this.high = f1;
+                }
+                if (f1 < this.low){
+                    this.low = f1;
+                }
+                this.avgPrices[i] = (float) localList2.get(2);
+                float f2 = (float)localList2.get(3) / this.volumeDivide;
+                this.volumes[i] = f2;
+                if (f2 > this.maxVolume){
+                    this.maxVolume = f2;
+                }
+                i++;
+            }
+            adjustVolumeUnit();
         }
 
     }
 
-    private void loadData() {
+    private void adjustVolumeUnit() {
 
+    }
+
+    private void loadData() {
+        ResponseListener localResponseListener = new ResponseListener();
     }
 
     @Override
@@ -106,5 +143,24 @@ public class TimeTodayChartData implements ChartData{
     @Override
     public boolean noData() {
         return false;
+    }
+
+    private class ResponseListener implements Response.Listener<Map<String, Object>>, Response.ErrorListener{
+        private ResponseListener(){
+
+        }
+
+        @Override
+        public void onErrorResponse(VolleyError paramVolleyError) {
+            if (paramVolleyError.networkResponse != null && paramVolleyError.networkResponse.statusCode == 404){
+                chartView.redrawChart();
+            }
+        }
+
+        @Override
+        public void onResponse(Map<String, Object> paramMap) {
+            addData(paramMap);
+            chartView.redrawChart();
+        }
     }
 }
