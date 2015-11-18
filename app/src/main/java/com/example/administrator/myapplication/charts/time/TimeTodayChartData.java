@@ -75,6 +75,7 @@ public class TimeTodayChartData implements ChartData{
         this.timeLabelValues = timeLabelValueMap.get(market);
         this.tag = "CHART_TIME_TODAY_FRESH_TAG";
         loadData();
+        /////
     }
 
     private void addData(Map<String, Object> paramMap){
