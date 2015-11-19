@@ -5,6 +5,7 @@ import com.android.volley.VolleyError;
 import com.example.administrator.myapplication.charts.ChartData;
 import com.example.administrator.myapplication.charts.utils.ModelUtils;
 import com.example.administrator.myapplication.charts.utils.StringUtils;
+import com.example.administrator.myapplication.charts.utils.VolleyUtils;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -128,11 +129,12 @@ public class TimeTodayChartData implements ChartData{
 
     private void loadData() {
         ResponseListener localResponseListener = new ResponseListener();
+
     }
 
     @Override
     public void destroy() {
-
+        VolleyUtils.cancelRequest(this.tag);
     }
 
     @Override
