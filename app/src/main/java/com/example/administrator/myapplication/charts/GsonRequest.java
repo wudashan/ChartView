@@ -27,6 +27,7 @@ public class GsonRequest<T> extends BaseRequest<T> {
     protected Gson getGson() {
         return this.gson;
     }
+
     protected final String getResponseStr(NetworkResponse paramNetworkResponse){
         if (!TextUtils.isEmpty(this.mCharset)){
             String localStr = this.mCharset;

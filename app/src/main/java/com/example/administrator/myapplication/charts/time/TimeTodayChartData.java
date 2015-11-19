@@ -3,6 +3,7 @@ package com.example.administrator.myapplication.charts.time;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.example.administrator.myapplication.charts.ChartData;
+import com.example.administrator.myapplication.charts.ChartRequest;
 import com.example.administrator.myapplication.charts.utils.ModelUtils;
 import com.example.administrator.myapplication.charts.utils.StringUtils;
 import com.example.administrator.myapplication.charts.utils.VolleyUtils;
@@ -124,12 +125,35 @@ public class TimeTodayChartData implements ChartData{
     }
 
     private void adjustVolumeUnit() {
-
+        if ("HK".equals(this.market) || "US".equals(this.market)){
+            if (this.maxVolume < 1.0){
+                this.maxVolume *= this.volumeDivide;
+                this.volumeUnit = "股";
+            }
+            int i = 0;
+            int j = this.volumes.length;
+            while(i < j){
+                this.volumes[i] *= this.volumeDivide;
+                i++;
+            }
+        }
+        if ("HS".equals(this.market) && this.maxVolume >= 10000){
+            this.maxVolume = (float) (0.0001 * this.maxVolume);
+            this.volumeUnit = "万手";
+            int k = 0;
+            int m = this.volumes.length;
+            while(k < m){
+                this.volumes[k] *= 0.0001;
+                k++;
+            }
+        }
     }
 
     private void loadData() {
         ResponseListener localResponseListener = new ResponseListener();
-
+        ChartRequest.TimeTodayDataRequest localTimeTodayDataRequest = new ChartRequest.TimeTodayDataRequest(this.chartView.getContext(), this.market, this.code, localResponseListener, localResponseListener);
+        localTimeTodayDataRequest.setTag(this.tag);
+        VolleyUtils.addRequest(localTimeTodayDataRequest);
     }
 
     @Override
