@@ -11,10 +11,10 @@ import java.util.Map;
  */
 public class ChartRequest{
 
-//public static class TimeTodayDataRequest extends Gson4MapRequest {
-//    public TimeTodayDataRequest(Context paramContext, String paramString1, String paramString2, Response.Listener<Map<String, Object>> paramListener, Response.ErrorListener paramErrorListener) {
-//        super(String.format("http://img1.money.126.net/data/%s/time/today/%s.json", arrayOfObject), null, paramListener, paramErrorListener);
-//    }
-//}
+public static class TimeTodayDataRequest extends Gson4MapRequest {
+    public TimeTodayDataRequest(Context paramContext, String paramString1, String paramString2, Response.Listener<Map<String, Object>> paramListener, Response.ErrorListener paramErrorListener) {
+        super(paramContext,String.format("http://img1.money.126.net/data/%s/time/today/%s.json", paramString1,paramString2), null, paramListener, paramErrorListener);
+    }
+}
 
 }

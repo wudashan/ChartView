@@ -1,6 +1,5 @@
 package com.example.administrator.myapplication.charts;
 
-import android.app.DownloadManager;
 import android.content.Context;
 
 import com.android.volley.AuthFailureError;
