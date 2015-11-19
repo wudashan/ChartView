@@ -23,6 +23,11 @@
     </android.support.design.widget.AppBarLayout>
 
 
+    <com.example.administrator.myapplication.charts.time.TimeTodayChartView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/mTimeTodayChartView"/>
+
 
 
 </LinearLayout>

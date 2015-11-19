@@ -156,6 +156,110 @@ public class TimeTodayChartData implements ChartData{
         VolleyUtils.addRequest(localTimeTodayDataRequest);
     }
 
+    public int getCount() {
+        return count;
+    }
+
+    public static Map<String, int[]> getTimeLabelKeyMap() {
+        return timeLabelKeyMap;
+    }
+
+    public static Map<String, String[]> getTimeLabelValueMap() {
+        return timeLabelValueMap;
+    }
+
+    public static Map<String, Integer> getVolumeDivideMap() {
+        return volumeDivideMap;
+    }
+
+    public static Map<String, String> getVolumeUnitMap() {
+        return volumeUnitMap;
+    }
+
+    public float[] getAvgPrices() {
+        return avgPrices;
+    }
+
+    public TimeTodayChartView getChartView() {
+        return chartView;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public float getHigh() {
+        return high;
+    }
+
+    public boolean isLoadAllData() {
+        return isLoadAllData;
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public float getLow() {
+        return low;
+    }
+
+    public String getMarket() {
+        return market;
+    }
+
+    public float getMaxVolume() {
+        return maxVolume;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public float[] getPrices() {
+        return prices;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public int[] getTimeLabelKeys() {
+        return timeLabelKeys;
+    }
+
+    public String[] getTimeLabelValues() {
+        return timeLabelValues;
+    }
+
+    public String[] getTimes() {
+        return times;
+    }
+
+    public int getVolumeDivide() {
+        return volumeDivide;
+    }
+
+    public String getVolumeUnit() {
+        return volumeUnit;
+    }
+
+    public float[] getVolumes() {
+        return volumes;
+    }
+
+    public float getYestclose() {
+        return yestclose;
+    }
+
     @Override
     public void destroy() {
         VolleyUtils.cancelRequest(this.tag);
@@ -163,12 +267,12 @@ public class TimeTodayChartData implements ChartData{
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return this.length == 0;
     }
 
     @Override
     public boolean noData() {
-        return false;
+        return this.length == 0 && this.isLoadAllData;
     }
 
     private class ResponseListener implements Response.Listener<Map<String, Object>>, Response.ErrorListener{
