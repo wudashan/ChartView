@@ -3,4 +3,10 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="dpUnit">0.5dip</dimen>
+    <dimen name="chart_margin_vertical">6.0dip</dimen>
+    <dimen name="chart_margin_horizontal">3.0dip</dimen>
+    <dimen name="chart_span">3.0dip</dimen>
+    <dimen name="chart_font_size">10.0sp</dimen>
+    <dimen name="chart_loading_font_size">15.0sp</dimen>
 </resources>
