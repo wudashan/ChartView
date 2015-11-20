@@ -17,7 +17,6 @@ import java.util.List;
 public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData>{
 
     private Path avgPricePath = new Path();
-//    private CharView chartView;
     private TimeChartCursor cursor;
     public float height;
     private List<TimeChartCursor> items = new ArrayList<>();
@@ -47,6 +46,16 @@ public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData>{
 
     }
 
+    @Override
+    protected void onMove(Canvas paramCanvas, TimeTodayChartData paramT, MotionEvent paramMotionEvent) {
+
+    }
+
+    @Override
+    protected void onRemoveCursor(Canvas paramCanvas, TimeTodayChartData paramT, MotionEvent paramMotionEvent) {
+
+    }
+
     public TimeTodayChartView(Context context, String paramString1, String paramString2) {
         super(context, paramString1, paramString2);
         this.paint = new Paint();
@@ -58,6 +67,17 @@ public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData>{
     protected void onZoom(Canvas paramCanvas, TimeTodayChartData paramT, float paramFloat) {
 
     }
+
+    @Override
+    protected void initViewData(Canvas paramCanvas, TimeTodayChartData paramT) {
+
+    }
+
+    @Override
+    protected TimeTodayChartData loadChartData(TimeTodayChartData paramT, String paramString1, String paramString2) {
+        return null;
+    }
+
 
     public void drawOutline(Canvas paramCanvas, TimeTodayChartData paramTimeTodayChartData, Paint paramPaint){
         paramPaint.setColor(this.axisColor);
@@ -139,6 +159,11 @@ public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData>{
     }
 
     public void redrawChart(){
+
+    }
+
+    @Override
+    protected void drawChart(Canvas paramCanvas, TimeTodayChartData paramT) {
 
     }
 

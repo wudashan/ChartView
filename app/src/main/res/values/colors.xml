@@ -3,4 +3,13 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="chart_axis_color">#ffd6d7db</color>
+    <color name="chart_font_color">#ff7a838d</color>
+    <color name="chart_green_color">#ff7fd010</color>
+    <color name="chart_grid_color">#fff2f6f9</color>
+    <color name="chart_indicator_color">#ff021840</color>
+    <color name="chart_red_color">#fff4447a</color>
+    <color name="chart_time_avg_price_line_color">#fffdc35d</color>
+    <color name="chart_time_price_area_color">#ffdcebfc</color>
+    <color name="chart_time_price_line_color">#ff6e86fb</color>
 </resources>
