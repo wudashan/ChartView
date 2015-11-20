@@ -7,6 +7,7 @@ import android.graphics.Path;
 import android.view.MotionEvent;
 
 import com.example.administrator.myapplication.charts.AbstractChartView;
+import com.example.administrator.myapplication.charts.StringHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,24 +39,6 @@ public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData>{
     private String[] volumeLabels = new String[4];
     public float width;
 
-
-
-
-    @Override
-    protected void onCursor(Canvas paramCanvas, TimeTodayChartData paramT, MotionEvent paramMotionEvent) {
-
-    }
-
-    @Override
-    protected void onMove(Canvas paramCanvas, TimeTodayChartData paramT, MotionEvent paramMotionEvent) {
-
-    }
-
-    @Override
-    protected void onRemoveCursor(Canvas paramCanvas, TimeTodayChartData paramT, MotionEvent paramMotionEvent) {
-
-    }
-
     public TimeTodayChartView(Context context, String paramString1, String paramString2) {
         super(context, paramString1, paramString2);
         this.paint = new Paint();
@@ -63,23 +46,9 @@ public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData>{
         this.paint.setTextSize(this.fontSize);
     }
 
-    @Override
-    protected void onZoom(Canvas paramCanvas, TimeTodayChartData paramT, float paramFloat) {
-
-    }
-
-    @Override
-    protected void initViewData(Canvas paramCanvas, TimeTodayChartData paramT) {
-
-    }
-
-    @Override
-    protected TimeTodayChartData loadChartData(TimeTodayChartData paramT, String paramString1, String paramString2) {
-        return null;
-    }
-
 
     public void drawOutline(Canvas paramCanvas, TimeTodayChartData paramTimeTodayChartData, Paint paramPaint){
+
         paramPaint.setColor(this.axisColor);
         paramPaint.setStyle(Paint.Style.STROKE);
         paramPaint.setStrokeWidth(this.dpUnit);
@@ -158,12 +127,99 @@ public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData>{
 
     }
 
+    @Override
+    protected void onCursor(Canvas paramCanvas, TimeTodayChartData paramT, MotionEvent paramMotionEvent) {
+
+    }
+
+    @Override
+    protected void onMove(Canvas paramCanvas, TimeTodayChartData paramT, MotionEvent paramMotionEvent) {
+
+    }
+
+    @Override
+    protected void onRemoveCursor(Canvas paramCanvas, TimeTodayChartData paramT, MotionEvent paramMotionEvent) {
+
+    }
+
+
+
+    @Override
+    protected void onZoom(Canvas paramCanvas, TimeTodayChartData paramT, float paramFloat) {
+
+    }
+
+    @Override
+    protected void initViewData(Canvas paramCanvas, TimeTodayChartData paramTimeTodayChartData) {
+        this.width = getWidth();
+        this.height = getHeight();
+        float f1 = paramTimeTodayChartData.getYestclose();
+        float f2 = paramTimeTodayChartData.getHigh();
+        float f3 = paramTimeTodayChartData.getLow();
+        float f4 = paramTimeTodayChartData.getMaxVolume();
+        float f5 = 0.0f;
+        float f6 = 0.0f;
+        String str1 = paramTimeTodayChartData.getVolumeUnit();
+        if (f3 < 0.0f){
+            f5 = f3 - f1;
+        }
+        if (f2 < 0.0f){
+            f6 = f2 - f1;
+        }
+        float f7 = Math.abs(f5);
+        float f8 = Math.abs(f6);
+        if (f7 > f8){
+            float f9 = f7 * 1.02f;
+            this.upperLimit = f1 + f9;
+            this.lowerLimit = f1 - f9;
+            this.priceLabels[0] = formatPrice(this.upperLimit);
+            this.priceLabels[1] = formatPrice(this.upperLimit - f9 / 2.0f);
+            this.priceLabels[2] = formatPrice(f1);
+            this.priceLabels[3] = formatPrice(this.lowerLimit + f9 / 2.0f);
+            this.priceLabels[4] = formatPrice(this.lowerLimit);
+            String str2 = StringHandler.formatPercent(f9 / f1, 2, false, false);
+            String str3 = StringHandler.formatPercent(0.5 * (f9 / f1), 2, false, false);
+            this.pricePercentLabels[0] = "+" + str2;
+            this.pricePercentLabels[1] = "+" + str3;
+            this.pricePercentLabels[2] = "0";
+            this.pricePercentLabels[3] = "-" + str3;
+            this.pricePercentLabels[4] = "-" + str2;
+            float f10 = f4 / 3.0f;
+            this.volumeLabels[0] = formatVolume(3.0f * f10);
+            this.volumeLabels[1] = formatVolume(2.0f * f10);
+            this.volumeLabels[2] = formatVolume(f10);
+            this.volumeLabels[3] = str1;
+            float f11 = Math.max(Math.max(this.paint.measureText(formatPrice(this.upperLimit)),this.paint.measureText(formatVolume(f4))),this.paint.measureText(str1));
+            float f12 = this.marginHorizontal + this.span + this.paint.measureText(this.pricePercentLabels[0]);
+            this.left = f11 + this.marginHorizontal + this.span;
+            this.right = this.width - f12 - this.dpUnit;
+            float f13 = this.fontSize + 3.0f * this.span;
+            this.priceAreaTop = this.marginVertical + this.fontSize / 2.0f;
+            this.volumeAreaBottom = this.height - this.marginVertical - this.fontSize / 2.0f;
+            this.priceAreaBottom = 0.75f * (this.volumeAreaBottom - this.priceAreaTop - f13) + this.priceAreaTop;
+            this.volumeAreaTop = f13 + this.priceAreaBottom;
+        }
+    }
+
+    @Override
+    protected TimeTodayChartData loadChartData(TimeTodayChartData paramTimeTodayChartData, String paramString1, String paramString2) {
+        if (paramTimeTodayChartData == null){
+            paramTimeTodayChartData = new TimeTodayChartData(this, paramString1, paramString2);
+        }
+        return paramTimeTodayChartData;
+    }
+
     public void redrawChart(){
 
     }
 
     @Override
-    protected void drawChart(Canvas paramCanvas, TimeTodayChartData paramT) {
+    protected void drawChart(Canvas paramCanvas, TimeTodayChartData paramTimeTodayChartData) {
+        drawPriceAndVolume(paramCanvas, paramTimeTodayChartData, this.paint);
+        drawOutline(paramCanvas, paramTimeTodayChartData, this.paint);
+    }
+
+    private void drawPriceAndVolume(Canvas paramCanvas, TimeTodayChartData paramTimeTodayChartData, Paint paramPaint) {
 
     }
 

@@ -202,12 +202,25 @@ public abstract class AbstractChartView<T extends ChartData> extends RefreshLoad
         redrawChart();
     }
 
+    public String formatPrice(float paramFloat){
+        return ApiStock.getPriceFormatted(paramFloat);
+    }
+
+    public String formatVolume(float paramFloat){
+        String str = StringHandler.formatDouble(paramFloat, 2, false, false);
+        if (str.length() > 5){
+            str = StringHandler.formatDouble(paramFloat, 0, false, false);
+        }
+        return str;
+    }
+
+
 
     protected abstract void drawChart(Canvas paramCanvas, T paramT);
 
     protected abstract void onZoom(Canvas paramCanvas, T paramT, float paramFloat);
 
-    protected abstract void initViewData(Canvas paramCanvas, T paramT);
+    protected abstract void initViewData(Canvas paramCanvas, T paramTimeTodayChartData);
 
     protected abstract T loadChartData(T paramT, String paramString1, String paramString2);
 
