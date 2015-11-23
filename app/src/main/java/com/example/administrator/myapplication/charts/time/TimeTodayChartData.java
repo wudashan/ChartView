@@ -92,36 +92,36 @@ public class TimeTodayChartData implements ChartData{
         this.date = ModelUtils.getStringValue(paramMap, "date");
         this.yestclose = (float) ModelUtils.getDoubleValue(paramMap, "yestclose", 0.0);
         this.count = (int) ModelUtils.getDoubleValue(paramMap, "count", 0.0);
-        List localList1 = ModelUtils.getListValue(paramMap, "data");
-        if (StringUtils.hasText(this.symbol) && StringUtils.hasText(this.name) && StringUtils.hasText(this.date) && this.count > 0 && localList1 != null && localList1.size() > 0){
+        List dataList = ModelUtils.getListValue(paramMap, "data");
+        if (StringUtils.hasText(this.symbol) && StringUtils.hasText(this.name) && StringUtils.hasText(this.date) && this.count > 0 && dataList != null && dataList.size() > 0){
             this.date = this.date.substring(0, 4) + "-" + this.date.substring(4, 6) + "-" + this.date.substring(6);
-            this.length = localList1.size();
+            this.length = dataList.size();
             this.times = new String[this.length];
             this.prices = new float[this.length];
             this.avgPrices = new float[this.length];
             this.volumes = new float[this.length];
-            int i = 0;
-            Iterator localIterator = localList1.iterator();
-            while (localIterator.hasNext()){
-                List localList2 = (List) localIterator.next();
-                String str1 = (String) localList2.get(0);
-                String str2 = str1.substring(0, 2) + ":" + str1.substring(2);
-                this.times[i] = str2;
-                float f1 = ((Double) localList2.get(1)).floatValue();
-                this.prices[i] = f1;
-                if (f1 > this.high){
-                    this.high = f1;
+
+            Iterator dataIterator = dataList.iterator();
+
+            for (int i = 0; dataIterator.hasNext(); i++){
+                List dataItem = (List) dataIterator.next();
+                String timeTemp = (String) dataItem.get(0);
+                String timeString = timeTemp.substring(0, 2) + ":" + timeTemp.substring(2);
+                this.times[i] = timeString;
+                float immediatePrice = ((Double) dataItem.get(1)).floatValue();
+                this.prices[i] = immediatePrice;
+                if (immediatePrice > this.high){
+                    this.high = immediatePrice;
                 }
-                if (f1 < this.low){
-                    this.low = f1;
+                if (immediatePrice < this.low){
+                    this.low = immediatePrice;
                 }
-                this.avgPrices[i] = ((Double) localList2.get(2)).floatValue();
-                float f2 = ((Double)localList2.get(3)).floatValue() / this.volumeDivide;
-                this.volumes[i] = f2;
-                if (f2 > this.maxVolume){
-                    this.maxVolume = f2;
+                this.avgPrices[i] = ((Double) dataItem.get(2)).floatValue();
+                float tradeTotal = ((Double)dataItem.get(3)).floatValue() / this.volumeDivide;
+                this.volumes[i] = tradeTotal;
+                if (tradeTotal > this.maxVolume){
+                    this.maxVolume = tradeTotal;
                 }
-                i++;
             }
             adjustVolumeUnit();
         }
@@ -160,6 +160,15 @@ public class TimeTodayChartData implements ChartData{
         ChartRequest.TimeTodayDataRequest localTimeTodayDataRequest = new ChartRequest.TimeTodayDataRequest(this.chartView.getContext(), this.market, this.code, localResponseListener, localResponseListener);
         localTimeTodayDataRequest.setTag(this.tag);
         VolleyUtils.addRequest(localTimeTodayDataRequest);
+    }
+
+
+
+    public float getTouchVolumeForHs(float paramFloat){
+        if ("HS".equals(this.market) && "万手".equals(this.volumeUnit)){
+            paramFloat = Math.round(100.0f * (10000.0f * paramFloat)) / 100.0f;
+        }
+        return paramFloat;
     }
 
     public int getCount() {

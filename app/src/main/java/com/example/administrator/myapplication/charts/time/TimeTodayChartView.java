@@ -152,50 +152,52 @@ public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData> {
     protected void initViewData(Canvas paramCanvas, TimeTodayChartData paramTimeTodayChartData) {
         this.width = getWidth();
         this.height = getHeight();
-        float f1 = paramTimeTodayChartData.getYestclose();
-        float f2 = paramTimeTodayChartData.getHigh();
-        float f3 = paramTimeTodayChartData.getLow();
-        float f4 = paramTimeTodayChartData.getMaxVolume();
-        float f5 = 0.0f;
-        float f6 = 0.0f;
-        String str1 = paramTimeTodayChartData.getVolumeUnit();
-        if (f3 < 0.0f) {
-            f5 = f3 - f1;
+
+        float yestclose = paramTimeTodayChartData.getYestclose();
+        float priceMax = paramTimeTodayChartData.getHigh();
+        float priceMin = paramTimeTodayChartData.getLow();
+        float volumeMax = paramTimeTodayChartData.getMaxVolume();
+        String volumeUnit = paramTimeTodayChartData.getVolumeUnit();
+
+        float differenceMin = priceMin - yestclose;
+        float differenceMax = priceMax - yestclose;
+        float absMin = Math.abs(differenceMin);
+        float absMax = Math.abs(differenceMax);
+        if (absMin < absMax){
+            absMin = absMax;
         }
-        if (f2 < 0.0f) {
-            f6 = f2 - f1;
-        }
-        float f7 = Math.abs(f5);
-        float f8 = Math.abs(f6);
-        float f9 = f7 * 1.02f;
-        this.upperLimit = f1 + f9;
-        this.lowerLimit = f1 - f9;
+        float difference = absMin * 1.02f;
+        this.upperLimit = yestclose + difference;
+        this.lowerLimit = yestclose - difference;
         this.priceLabels[0] = formatPrice(this.upperLimit);
-        this.priceLabels[1] = formatPrice(this.upperLimit - f9 / 2.0f);
-        this.priceLabels[2] = formatPrice(f1);
-        this.priceLabels[3] = formatPrice(this.lowerLimit + f9 / 2.0f);
+        this.priceLabels[1] = formatPrice(this.upperLimit - difference / 2.0f);
+        this.priceLabels[2] = formatPrice(yestclose);
+        this.priceLabels[3] = formatPrice(this.lowerLimit + difference / 2.0f);
         this.priceLabels[4] = formatPrice(this.lowerLimit);
-        String str2 = StringHandler.formatPercent(f9 / f1, 2, false, false);
-        String str3 = StringHandler.formatPercent(0.5 * (f9 / f1), 2, false, false);
-        this.pricePercentLabels[0] = "+" + str2;
-        this.pricePercentLabels[1] = "+" + str3;
+
+        String upperPercent = StringHandler.formatPercent(difference / yestclose, 2, false, false);
+        String lowerPercent = StringHandler.formatPercent(0.5 * (difference / yestclose), 2, false, false);
+        this.pricePercentLabels[0] = "+" + upperPercent;
+        this.pricePercentLabels[1] = "+" + lowerPercent;
         this.pricePercentLabels[2] = "0";
-        this.pricePercentLabels[3] = "-" + str3;
-        this.pricePercentLabels[4] = "-" + str2;
-        float f10 = f4 / 3.0f;
-        this.volumeLabels[0] = formatVolume(3.0f * f10);
-        this.volumeLabels[1] = formatVolume(2.0f * f10);
-        this.volumeLabels[2] = formatVolume(f10);
-        this.volumeLabels[3] = str1;
-        float f11 = Math.max(Math.max(this.paint.measureText(formatPrice(this.upperLimit)), this.paint.measureText(formatVolume(f4))), this.paint.measureText(str1));
-        float f12 = this.marginHorizontal + this.span + this.paint.measureText(this.pricePercentLabels[0]);
-        this.left = f11 + this.marginHorizontal + this.span;
-        this.right = this.width - f12 - this.dpUnit;
-        float f13 = this.fontSize + 3.0f * this.span;
+        this.pricePercentLabels[3] = "-" + lowerPercent;
+        this.pricePercentLabels[4] = "-" + upperPercent;
+
+        float volume = volumeMax / 3.0f;
+        this.volumeLabels[0] = formatVolume(3.0f * volume);
+        this.volumeLabels[1] = formatVolume(2.0f * volume);
+        this.volumeLabels[2] = formatVolume(volume);
+        this.volumeLabels[3] = volumeUnit;
+
+        float leftBoundary = Math.max(Math.max(this.paint.measureText(formatPrice(this.upperLimit)), this.paint.measureText(formatVolume(volumeMax))), this.paint.measureText(volumeUnit));
+        float rightBoundary = this.marginHorizontal + this.span + this.paint.measureText(this.pricePercentLabels[0]);
+        this.left = leftBoundary + this.marginHorizontal + this.span;
+        this.right = this.width - rightBoundary - this.dpUnit;
+        float centerFontArea = this.fontSize + 3.0f * this.span;
         this.priceAreaTop = this.marginVertical + this.fontSize / 2.0f;
         this.volumeAreaBottom = this.height - this.marginVertical - this.fontSize / 2.0f;
-        this.priceAreaBottom = 0.75f * (this.volumeAreaBottom - this.priceAreaTop - f13) + this.priceAreaTop;
-        this.volumeAreaTop = f13 + this.priceAreaBottom;
+        this.priceAreaBottom = 0.75f * (this.volumeAreaBottom - this.priceAreaTop - centerFontArea) + this.priceAreaTop;
+        this.volumeAreaTop = centerFontArea + this.priceAreaBottom;
     }
 
     @Override
@@ -214,6 +216,119 @@ public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData> {
     }
 
     private void drawPriceAndVolume(Canvas paramCanvas, TimeTodayChartData paramTimeTodayChartData, Paint paramPaint) {
+        int i = paramTimeTodayChartData.getCount() - 1;
+        float f = (this.right - this.left) / i;
+        float f1 = f / 5.0f;
+        float f2 = (this.priceAreaBottom - this.priceAreaTop) / (this.upperLimit / this.lowerLimit);
+        float f3 = (this.volumeAreaBottom - this.volumeAreaTop) / paramTimeTodayChartData.getMaxVolume();
+        boolean flag;
+        float f4;
+        float f5;
+        float f6;
+        String as[];
+        float af[];
+        float af1[];
+        float af2[];
+        int j;
+        int k;
+        if (this.upperLimit == this.lowerLimit){
+            flag = true;
+        } else {
+            flag = false;
+        }
+        f4 = this.priceAreaBottom;
+        if (flag){
+            f4 -= (priceAreaBottom - priceAreaTop) / 2.0f;
+        }
+        pricePath.reset();
+        priceAreaPath.reset();
+        avgPricePath.reset();
+        items.clear();
+        f5 = 0.0f;
+        f6 = 0.0f;
+        as = paramTimeTodayChartData.getTimes();
+        af = paramTimeTodayChartData.getPrices();
+        af1 = paramTimeTodayChartData.getAvgPrices();
+        af2 = paramTimeTodayChartData.getVolumes();
+        j = 0;
+        k = af.length;
+        do {
+            while (j < k){
+                String s = as[j];
+                float f7 = af[j];
+                float f8 = af1[j];
+                float f9 = af2[j];
+                f5 = left + f * (float) j;
+                float f10;
+                float f11;
+                int l;
+                float f12;
+                float f13;
+                if (flag){
+                    f10 = f4;
+                    f11 = f4;
+                } else {
+                    f10 = priceAreaBottom - f2 * (f7 - lowerLimit);
+                    f11 = priceAreaBottom - f2 * (f8 - lowerLimit);
+                }
+                if (j == 0){
+                    pricePath.moveTo(f5, f10);
+                    avgPricePath.moveTo(f5, f11);
+                } else {
+                    pricePath.lineTo(f5, f10);
+                    avgPricePath.lineTo(f5, f11);
+                }
+                if (j == 0){
+                    if (f7 > paramTimeTodayChartData.getYestclose()){
+                        l = upColor;
+                    } else {
+                        l = downColor;
+                    }
+                } else {
+                    if (f7 >= f6){
+                        l = upColor;
+                    } else {
+                        l = downColor;
+                    }
+                }
+                f12 = volumeAreaBottom - f9 * f3;
+                f13 = (f7 - paramTimeTodayChartData.getYestclose()) / paramTimeTodayChartData.getYestclose();
+                items.add(new TimeChartCursor(f5, f10, f11, f12, f8, f7, s, f13, f13, f9, paramTimeTodayChartData.getTouchVolumeForHs(f9)));
+                paramPaint.setColor(l);
+                paramPaint.setStyle(Paint.Style.FILL);
+                if (j == 0){
+                    paramCanvas.drawRect(left, f12, f5 + f1, volumeAreaBottom, paramPaint);
+                } else {
+                    if (j == i){
+                        paramCanvas.drawRect(f5 - f1, f12, right, volumeAreaBottom, paramPaint);
+                    } else {
+                        paramCanvas.drawRect(f5 - f1, f12, f5 + f1, volumeAreaBottom, paramPaint);
+                    }
+                }
+                f6 = f7;
+                j++;
+            }
+            maxX = f5;
+            priceAreaPath.addPath(pricePath);
+            priceAreaPath.lineTo(maxX, priceAreaBottom);
+            priceAreaPath.lineTo(left, priceAreaBottom);
+            priceAreaPath.close();
+            paramPaint.setColor(priceAreaColor);
+            paramPaint.setStyle(Paint.Style.FILL);
+            paramCanvas.drawPath(priceAreaPath, paramPaint);
+
+            paramPaint.setColor(priceLineColor);
+            paramPaint.setStyle(Paint.Style.STROKE);
+            paramPaint.setStrokeWidth(2.0f * dpUnit);
+            paramCanvas.drawPath(pricePath, paramPaint);
+            if (paramTimeTodayChartData.getHigh() != paramTimeTodayChartData.getLow()){
+                paramPaint.setColor(avgPriceLineColor);
+                paramPaint.setStrokeWidth(2.0f * dpUnit);
+                paramCanvas.drawPath(avgPricePath, paramPaint);
+            }
+            return;
+        }while (true);
+
 
     }
 
