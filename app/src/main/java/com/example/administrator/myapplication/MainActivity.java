@@ -19,12 +19,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         VolleyUtils.init(this);
+        LinearLayout main = new LinearLayout(this);
+        main.setOrientation(LinearLayout.VERTICAL);
+        main.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
         LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(LinearLayout.VERTICAL);
-        layout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        layout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 500));
         mTimeTodayChartView = new TimeTodayChartView(this, "HS", "0000001");
+
+        main.addView(layout);
         layout.addView(mTimeTodayChartView);
-        setContentView(layout);
+        setContentView(main);
 
 
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

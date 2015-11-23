@@ -164,7 +164,7 @@ public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData> {
         float differenceMax = priceMax - yestclose;
         float absMin = Math.abs(differenceMin);
         float absMax = Math.abs(differenceMax);
-        if (absMin < absMax){
+        if (absMin < absMax) {
             absMin = absMax;
         }
         float difference = absMin * 1.02f;
@@ -220,9 +220,9 @@ public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData> {
 
     private void drawPriceAndVolume(Canvas paramCanvas, TimeTodayChartData paramTimeTodayChartData, Paint paramPaint) {
         int i = paramTimeTodayChartData.getCount() - 1;
-        float f = (right - left) / (float)i;
+        float f = (right - left) / (float) i;
         float f1 = f / 5.0f;
-        float f2 = (priceAreaBottom - priceAreaTop) / (upperLimit / lowerLimit);
+        float f2 = (priceAreaBottom - priceAreaTop) / (upperLimit - lowerLimit);
         float f3 = (this.volumeAreaBottom - this.volumeAreaTop) / paramTimeTodayChartData.getMaxVolume();
         boolean flag;
         float f4;
@@ -234,13 +234,13 @@ public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData> {
         float af2[];
         int j;
         int k;
-        if (upperLimit == lowerLimit){
+        if (upperLimit == lowerLimit) {
             flag = true;
         } else {
             flag = false;
         }
         f4 = priceAreaBottom;
-        if (flag){
+        if (flag) {
             f4 -= (priceAreaBottom - priceAreaTop) / 2.0f;
         }
         pricePath.reset();
@@ -255,81 +255,80 @@ public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData> {
         af2 = paramTimeTodayChartData.getVolumes();
         j = 0;
         k = af.length;
-        do {
-            while (j < k){
-                String s = as[j];
-                float f7 = af[j];
-                float f8 = af1[j];
-                float f9 = af2[j];
-                f5 = left + f * (float) j;
-                float f10;
-                float f11;
-                int l;
-                float f12;
-                float f13;
-                if (flag){
-                    f10 = f4;
-                    f11 = f4;
-                } else {
-                    f10 = priceAreaBottom - f2 * (f7 - lowerLimit);
-                    f11 = priceAreaBottom - f2 * (f8 - lowerLimit);
-                }
-                if (j == 0){
-                    pricePath.moveTo(f5, f10);
-                    avgPricePath.moveTo(f5, f11);
-                } else {
-                    pricePath.lineTo(f5, f10);
-                    avgPricePath.lineTo(f5, f11);
-                }
-                if (j == 0){
-                    if (f7 >= paramTimeTodayChartData.getYestclose()){
-                        l = upColor;
-                    } else {
-                        l = downColor;
-                    }
-                } else {
-                    if (f7 >= f6){
-                        l = upColor;
-                    } else {
-                        l = downColor;
-                    }
-                }
-                f12 = volumeAreaBottom - f9 * f3;
-                f13 = (f7 - paramTimeTodayChartData.getYestclose()) / paramTimeTodayChartData.getYestclose();
-                items.add(new TimeChartCursor(f5, f10, f11, f12, f8, f7, s, f13, f13, f9, paramTimeTodayChartData.getTouchVolumeForHs(f9)));
-                paramPaint.setColor(l);
-                paramPaint.setStyle(Paint.Style.FILL);
-                if (j == 0){
-                    paramCanvas.drawRect(left, f12, f5 + f1, volumeAreaBottom, paramPaint);
-                } else if (j == i) {
-                    paramCanvas.drawRect(f5 - f1, f12, right, volumeAreaBottom, paramPaint);
-                } else {
-                    paramCanvas.drawRect(f5 - f1, f12, f5 + f1, volumeAreaBottom, paramPaint);
-                }
-                f6 = f7;
-                j++;
+        while (j < k) {
+            String s = as[j];
+            float f7 = af[j];
+            float f8 = af1[j];
+            float f9 = af2[j];
+            f5 = left + f * (float) j;
+            float f10;
+            float f11;
+            int l;
+            float f12;
+            float f13;
+            if (flag) {
+                f10 = f4;
+                f11 = f4;
+            } else {
+                f10 = priceAreaBottom - f2 * (f7 - lowerLimit);
+                f11 = priceAreaBottom - f2 * (f8 - lowerLimit);
             }
-            maxX = f5;
-            priceAreaPath.addPath(pricePath);
-            priceAreaPath.lineTo(maxX, priceAreaBottom);
-            priceAreaPath.lineTo(left, priceAreaBottom);
-            priceAreaPath.close();
-            paramPaint.setColor(priceAreaColor);
+            if (j == 0) {
+                pricePath.moveTo(f5, f10);
+                avgPricePath.moveTo(f5, f11);
+                Log.d(TAG, f5 + " " + f10);
+            } else {
+                pricePath.lineTo(f5, f10);
+                avgPricePath.lineTo(f5, f11);
+                Log.d(TAG, f5 + " " + f10);
+            }
+            if (j == 0) {
+                if (f7 >= paramTimeTodayChartData.getYestclose()) {
+                    l = upColor;
+                } else {
+                    l = downColor;
+                }
+            } else {
+                if (f7 >= f6) {
+                    l = upColor;
+                } else {
+                    l = downColor;
+                }
+            }
+            f12 = volumeAreaBottom - f9 * f3;
+            f13 = (f7 - paramTimeTodayChartData.getYestclose()) / paramTimeTodayChartData.getYestclose();
+            items.add(new TimeChartCursor(f5, f10, f11, f12, f8, f7, s, f13, f13, f9, paramTimeTodayChartData.getTouchVolumeForHs(f9)));
+            paramPaint.setColor(l);
             paramPaint.setStyle(Paint.Style.FILL);
-            paramCanvas.drawPath(priceAreaPath, paramPaint);
-
-            paramPaint.setColor(priceLineColor);
-            paramPaint.setStyle(Paint.Style.STROKE);
-            paramPaint.setStrokeWidth(2.0f * dpUnit);
-            paramCanvas.drawPath(pricePath, paramPaint);
-
-            if (paramTimeTodayChartData.getHigh() != paramTimeTodayChartData.getLow()){
-                paramPaint.setColor(avgPriceLineColor);
-                paramPaint.setStrokeWidth(2.0f * dpUnit);
-                paramCanvas.drawPath(avgPricePath, paramPaint);
+            if (j == 0) {
+                paramCanvas.drawRect(left, f12, f5 + f1, volumeAreaBottom, paramPaint);
+            } else if (j == i) {
+                paramCanvas.drawRect(f5 - f1, f12, right, volumeAreaBottom, paramPaint);
+            } else {
+                paramCanvas.drawRect(f5 - f1, f12, f5 + f1, volumeAreaBottom, paramPaint);
             }
-            return;
-        }while (true);
+            f6 = f7;
+            j++;
+        }
+        maxX = f5;
+        priceAreaPath.addPath(pricePath);
+        priceAreaPath.lineTo(maxX, priceAreaBottom);
+        priceAreaPath.lineTo(left, priceAreaBottom);
+        priceAreaPath.close();
+        paramPaint.setColor(priceAreaColor);
+        paramPaint.setStyle(Paint.Style.FILL);
+        paramCanvas.drawPath(priceAreaPath, paramPaint);
+
+        paramPaint.setColor(priceLineColor);
+        paramPaint.setStyle(Paint.Style.STROKE);
+        paramPaint.setStrokeWidth(2.0f * dpUnit);
+        paramCanvas.drawPath(pricePath, paramPaint);
+
+        if (paramTimeTodayChartData.getHigh() != paramTimeTodayChartData.getLow()) {
+            paramPaint.setColor(avgPriceLineColor);
+            paramPaint.setStrokeWidth(2.0f * dpUnit);
+            paramCanvas.drawPath(avgPricePath, paramPaint);
+        }
 
 
     }
