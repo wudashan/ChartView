@@ -1,5 +1,7 @@
 package com.example.administrator.myapplication.charts.time;
 
+import android.util.Log;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.example.administrator.myapplication.charts.ChartData;
@@ -17,6 +19,8 @@ import java.util.Map;
  * Created by wudashan on 2015/11/18 0018.
  */
 public class TimeTodayChartData implements ChartData{
+
+    private static final String TAG = "TimeTodayChartData";
 
     private static final Map<String, int[]> timeLabelKeyMap;
     private static final Map<String, String[]> timeLabelValueMap;
@@ -103,7 +107,7 @@ public class TimeTodayChartData implements ChartData{
                 String str1 = (String) localList2.get(0);
                 String str2 = str1.substring(0, 2) + ":" + str1.substring(2);
                 this.times[i] = str2;
-                float f1 = (float) localList2.get(1);
+                float f1 = ((Double) localList2.get(1)).floatValue();
                 this.prices[i] = f1;
                 if (f1 > this.high){
                     this.high = f1;
@@ -111,8 +115,8 @@ public class TimeTodayChartData implements ChartData{
                 if (f1 < this.low){
                     this.low = f1;
                 }
-                this.avgPrices[i] = (float) localList2.get(2);
-                float f2 = (float)localList2.get(3) / this.volumeDivide;
+                this.avgPrices[i] = ((Double) localList2.get(2)).floatValue();
+                float f2 = ((Double)localList2.get(3)).floatValue() / this.volumeDivide;
                 this.volumes[i] = f2;
                 if (f2 > this.maxVolume){
                     this.maxVolume = f2;
@@ -150,7 +154,9 @@ public class TimeTodayChartData implements ChartData{
     }
 
     private void loadData() {
+        Log.d(TAG, "loadData");
         ResponseListener localResponseListener = new ResponseListener();
+//        Log.d(TAG, "this.market: " + this.market);
         ChartRequest.TimeTodayDataRequest localTimeTodayDataRequest = new ChartRequest.TimeTodayDataRequest(this.chartView.getContext(), this.market, this.code, localResponseListener, localResponseListener);
         localTimeTodayDataRequest.setTag(this.tag);
         VolleyUtils.addRequest(localTimeTodayDataRequest);
@@ -282,6 +288,7 @@ public class TimeTodayChartData implements ChartData{
 
         @Override
         public void onErrorResponse(VolleyError paramVolleyError) {
+            Log.d(TAG, "onErrorResponse");
             if (paramVolleyError.networkResponse != null && paramVolleyError.networkResponse.statusCode == 404){
                 chartView.redrawChart();
             }
@@ -289,6 +296,7 @@ public class TimeTodayChartData implements ChartData{
 
         @Override
         public void onResponse(Map<String, Object> paramMap) {
+            Log.d(TAG, "onResponse");
             addData(paramMap);
             chartView.redrawChart();
         }

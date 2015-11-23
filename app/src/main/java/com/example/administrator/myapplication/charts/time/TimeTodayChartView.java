@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by wudashan on 2015/11/18 0018.
  */
-public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData>{
+public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData> {
 
     private Path avgPricePath = new Path();
     private TimeChartCursor cursor;
@@ -47,7 +47,7 @@ public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData>{
     }
 
 
-    public void drawOutline(Canvas paramCanvas, TimeTodayChartData paramTimeTodayChartData, Paint paramPaint){
+    public void drawOutline(Canvas paramCanvas, TimeTodayChartData paramTimeTodayChartData, Paint paramPaint) {
 
         paramPaint.setColor(this.axisColor);
         paramPaint.setStyle(Paint.Style.STROKE);
@@ -66,11 +66,11 @@ public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData>{
         int[] arrayOfInt = paramTimeTodayChartData.getTimeLabelKeys();
         String[] arrayOfString = paramTimeTodayChartData.getTimeLabelValues();
 
-        for (int i = 0, j = arrayOfInt.length; i < j; i++){
-            if (i == 0){
+        for (int i = 0, j = arrayOfInt.length; i < j; i++) {
+            if (i == 0) {
                 paramPaint.setTextAlign(Paint.Align.LEFT);
             }
-            if (i == j - 1){
+            if (i == j - 1) {
                 paramPaint.setTextAlign(Paint.Align.RIGHT);
             }
             float f6 = this.left + f1 * (arrayOfInt[i] - 1);
@@ -119,7 +119,7 @@ public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData>{
         paramCanvas.drawText(this.pricePercentLabels[4], this.right + this.span, f5 + this.priceAreaBottom, paramPaint);
         paramPaint.setTextAlign(Paint.Align.RIGHT);
         paramPaint.setColor(this.fontColor);
-        paramCanvas.drawText(this.volumeLabels[0], this.left - this.span, f5 + this.priceAreaTop, paramPaint);
+        paramCanvas.drawText(this.volumeLabels[0], this.left - this.span, f5 + this.volumeAreaTop, paramPaint);
         paramCanvas.drawText(this.volumeLabels[1], this.left - this.span, f3 + f5 + this.volumeAreaTop, paramPaint);
         paramCanvas.drawText(this.volumeLabels[2], this.left - this.span, f5 + this.volumeAreaTop + 2.0f * f3, paramPaint);
         paramCanvas.drawText(this.volumeLabels[3], this.left - this.span, f5 + this.volumeAreaBottom, paramPaint);
@@ -143,7 +143,6 @@ public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData>{
     }
 
 
-
     @Override
     protected void onZoom(Canvas paramCanvas, TimeTodayChartData paramT, float paramFloat) {
 
@@ -160,58 +159,53 @@ public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData>{
         float f5 = 0.0f;
         float f6 = 0.0f;
         String str1 = paramTimeTodayChartData.getVolumeUnit();
-        if (f3 < 0.0f){
+        if (f3 < 0.0f) {
             f5 = f3 - f1;
         }
-        if (f2 < 0.0f){
+        if (f2 < 0.0f) {
             f6 = f2 - f1;
         }
         float f7 = Math.abs(f5);
         float f8 = Math.abs(f6);
-        if (f7 > f8){
-            float f9 = f7 * 1.02f;
-            this.upperLimit = f1 + f9;
-            this.lowerLimit = f1 - f9;
-            this.priceLabels[0] = formatPrice(this.upperLimit);
-            this.priceLabels[1] = formatPrice(this.upperLimit - f9 / 2.0f);
-            this.priceLabels[2] = formatPrice(f1);
-            this.priceLabels[3] = formatPrice(this.lowerLimit + f9 / 2.0f);
-            this.priceLabels[4] = formatPrice(this.lowerLimit);
-            String str2 = StringHandler.formatPercent(f9 / f1, 2, false, false);
-            String str3 = StringHandler.formatPercent(0.5 * (f9 / f1), 2, false, false);
-            this.pricePercentLabels[0] = "+" + str2;
-            this.pricePercentLabels[1] = "+" + str3;
-            this.pricePercentLabels[2] = "0";
-            this.pricePercentLabels[3] = "-" + str3;
-            this.pricePercentLabels[4] = "-" + str2;
-            float f10 = f4 / 3.0f;
-            this.volumeLabels[0] = formatVolume(3.0f * f10);
-            this.volumeLabels[1] = formatVolume(2.0f * f10);
-            this.volumeLabels[2] = formatVolume(f10);
-            this.volumeLabels[3] = str1;
-            float f11 = Math.max(Math.max(this.paint.measureText(formatPrice(this.upperLimit)),this.paint.measureText(formatVolume(f4))),this.paint.measureText(str1));
-            float f12 = this.marginHorizontal + this.span + this.paint.measureText(this.pricePercentLabels[0]);
-            this.left = f11 + this.marginHorizontal + this.span;
-            this.right = this.width - f12 - this.dpUnit;
-            float f13 = this.fontSize + 3.0f * this.span;
-            this.priceAreaTop = this.marginVertical + this.fontSize / 2.0f;
-            this.volumeAreaBottom = this.height - this.marginVertical - this.fontSize / 2.0f;
-            this.priceAreaBottom = 0.75f * (this.volumeAreaBottom - this.priceAreaTop - f13) + this.priceAreaTop;
-            this.volumeAreaTop = f13 + this.priceAreaBottom;
-        }
+        float f9 = f7 * 1.02f;
+        this.upperLimit = f1 + f9;
+        this.lowerLimit = f1 - f9;
+        this.priceLabels[0] = formatPrice(this.upperLimit);
+        this.priceLabels[1] = formatPrice(this.upperLimit - f9 / 2.0f);
+        this.priceLabels[2] = formatPrice(f1);
+        this.priceLabels[3] = formatPrice(this.lowerLimit + f9 / 2.0f);
+        this.priceLabels[4] = formatPrice(this.lowerLimit);
+        String str2 = StringHandler.formatPercent(f9 / f1, 2, false, false);
+        String str3 = StringHandler.formatPercent(0.5 * (f9 / f1), 2, false, false);
+        this.pricePercentLabels[0] = "+" + str2;
+        this.pricePercentLabels[1] = "+" + str3;
+        this.pricePercentLabels[2] = "0";
+        this.pricePercentLabels[3] = "-" + str3;
+        this.pricePercentLabels[4] = "-" + str2;
+        float f10 = f4 / 3.0f;
+        this.volumeLabels[0] = formatVolume(3.0f * f10);
+        this.volumeLabels[1] = formatVolume(2.0f * f10);
+        this.volumeLabels[2] = formatVolume(f10);
+        this.volumeLabels[3] = str1;
+        float f11 = Math.max(Math.max(this.paint.measureText(formatPrice(this.upperLimit)), this.paint.measureText(formatVolume(f4))), this.paint.measureText(str1));
+        float f12 = this.marginHorizontal + this.span + this.paint.measureText(this.pricePercentLabels[0]);
+        this.left = f11 + this.marginHorizontal + this.span;
+        this.right = this.width - f12 - this.dpUnit;
+        float f13 = this.fontSize + 3.0f * this.span;
+        this.priceAreaTop = this.marginVertical + this.fontSize / 2.0f;
+        this.volumeAreaBottom = this.height - this.marginVertical - this.fontSize / 2.0f;
+        this.priceAreaBottom = 0.75f * (this.volumeAreaBottom - this.priceAreaTop - f13) + this.priceAreaTop;
+        this.volumeAreaTop = f13 + this.priceAreaBottom;
     }
 
     @Override
     protected TimeTodayChartData loadChartData(TimeTodayChartData paramTimeTodayChartData, String paramString1, String paramString2) {
-        if (paramTimeTodayChartData == null){
+        if (paramTimeTodayChartData == null) {
             paramTimeTodayChartData = new TimeTodayChartData(this, paramString1, paramString2);
         }
         return paramTimeTodayChartData;
     }
 
-    public void redrawChart(){
-
-    }
 
     @Override
     protected void drawChart(Canvas paramCanvas, TimeTodayChartData paramTimeTodayChartData) {

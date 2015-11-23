@@ -2,6 +2,7 @@ package com.example.administrator.myapplication.charts;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
@@ -14,6 +15,8 @@ import java.util.Map;
  * Created by wudashan on 2015/11/19 0019.
  */
 public class GsonRequest<T> extends BaseRequest<T> {
+
+    private static final String TAG = "GsonRequest";
 
     private final Class<T> clazz;
     private final Gson gson = new Gson();
@@ -32,6 +35,8 @@ public class GsonRequest<T> extends BaseRequest<T> {
         if (!TextUtils.isEmpty(this.mCharset)){
             String localStr = this.mCharset;
             try {
+                Log.d(TAG,  new String(paramNetworkResponse.data, localStr));
+
                 return new String(paramNetworkResponse.data, localStr);
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
@@ -42,9 +47,9 @@ public class GsonRequest<T> extends BaseRequest<T> {
 
     @Override
     protected Response<T> parseNetworkResponse(NetworkResponse paramNetworkResponse) {
+        Log.d(TAG, "parseNetworkResponse");
         String str = getResponseStr(paramNetworkResponse);
-        Response localResponse = Response.success(this.gson.fromJson(str,this.clazz), getCacheEntry(paramNetworkResponse));
-        return localResponse;
+        return Response.success(this.gson.fromJson(str,this.clazz), getCacheEntry(paramNetworkResponse));
     }
 
     protected void setCharset(String paramString){

@@ -1,5 +1,8 @@
 package com.example.administrator.myapplication.charts.utils;
 
+import android.nfc.Tag;
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -12,14 +15,15 @@ import java.util.Map;
 public class GsonUtils {
 
     public static Gson gson = new GsonBuilder().create();
-
+    private static final String TAG = "GsonUtils";
 
 
     public static Map<String, Object> getMap(String paramString){
-        TypeToken local2 = new TypeToken(){
+        Log.d(TAG, paramString);
+        TypeToken local2 = new TypeToken<Map<String, Object>>(){
         };
-        Map localMap = gson.fromJson(paramString, local2.getType());
-        return localMap;
+
+        return gson.fromJson(paramString, local2.getType());
     }
 
 

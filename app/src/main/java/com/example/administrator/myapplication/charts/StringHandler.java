@@ -6,13 +6,13 @@ package com.example.administrator.myapplication.charts;
 public class StringHandler {
 
     public static String formatDouble(double paramDouble, int paramInt, boolean paramBoolean1, boolean paramBoolean2){
-        StringBuilder  localStringBuilder = new StringBuilder();
+        StringBuilder  localStringBuilder = new StringBuilder("%");
         localStringBuilder.append(".").append(paramInt).append("f");
         return String.format(localStringBuilder.toString(), paramDouble);
     }
 
     public static String formatPercent(double paramDouble, int paramInt, boolean paramBoolean1, boolean paramBoolean2){
-        StringBuilder  localStringBuilder = new StringBuilder();
+        StringBuilder  localStringBuilder = new StringBuilder("%");
         localStringBuilder.append(".").append(paramInt).append("f");
         return String.format(localStringBuilder.toString(), paramDouble);
     }
