@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import com.example.administrator.myapplication.charts.AbstractChartView;
@@ -17,6 +18,7 @@ import java.util.List;
  */
 public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData> {
 
+    private static final String TAG = "TimeTodayChartView";
     private Path avgPricePath = new Path();
     private TimeChartCursor cursor;
     public float height;
@@ -158,7 +160,6 @@ public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData> {
         float priceMin = paramTimeTodayChartData.getLow();
         float volumeMax = paramTimeTodayChartData.getMaxVolume();
         String volumeUnit = paramTimeTodayChartData.getVolumeUnit();
-
         float differenceMin = priceMin - yestclose;
         float differenceMax = priceMax - yestclose;
         float absMin = Math.abs(differenceMin);
@@ -175,13 +176,15 @@ public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData> {
         this.priceLabels[3] = formatPrice(this.lowerLimit + difference / 2.0f);
         this.priceLabels[4] = formatPrice(this.lowerLimit);
 
-        String upperPercent = StringHandler.formatPercent(difference / yestclose, 2, false, false);
-        String lowerPercent = StringHandler.formatPercent(0.5 * (difference / yestclose), 2, false, false);
-        this.pricePercentLabels[0] = "+" + upperPercent;
-        this.pricePercentLabels[1] = "+" + lowerPercent;
+        Log.d(TAG, difference + " " + yestclose);
+        String totalPercent = StringHandler.formatPercent(difference / yestclose, 2, false, false);
+        String halfPercent = StringHandler.formatPercent(0.5 * (difference / yestclose), 2, false, false);
+        this.pricePercentLabels[0] = "+" + totalPercent;
+        Log.d(TAG, pricePercentLabels[0]);
+        this.pricePercentLabels[1] = "+" + halfPercent;
         this.pricePercentLabels[2] = "0";
-        this.pricePercentLabels[3] = "-" + lowerPercent;
-        this.pricePercentLabels[4] = "-" + upperPercent;
+        this.pricePercentLabels[3] = "-" + halfPercent;
+        this.pricePercentLabels[4] = "-" + totalPercent;
 
         float volume = volumeMax / 3.0f;
         this.volumeLabels[0] = formatVolume(3.0f * volume);
@@ -217,9 +220,9 @@ public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData> {
 
     private void drawPriceAndVolume(Canvas paramCanvas, TimeTodayChartData paramTimeTodayChartData, Paint paramPaint) {
         int i = paramTimeTodayChartData.getCount() - 1;
-        float f = (this.right - this.left) / i;
+        float f = (right - left) / (float)i;
         float f1 = f / 5.0f;
-        float f2 = (this.priceAreaBottom - this.priceAreaTop) / (this.upperLimit / this.lowerLimit);
+        float f2 = (priceAreaBottom - priceAreaTop) / (upperLimit / lowerLimit);
         float f3 = (this.volumeAreaBottom - this.volumeAreaTop) / paramTimeTodayChartData.getMaxVolume();
         boolean flag;
         float f4;
@@ -231,12 +234,12 @@ public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData> {
         float af2[];
         int j;
         int k;
-        if (this.upperLimit == this.lowerLimit){
+        if (upperLimit == lowerLimit){
             flag = true;
         } else {
             flag = false;
         }
-        f4 = this.priceAreaBottom;
+        f4 = priceAreaBottom;
         if (flag){
             f4 -= (priceAreaBottom - priceAreaTop) / 2.0f;
         }
@@ -279,7 +282,7 @@ public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData> {
                     avgPricePath.lineTo(f5, f11);
                 }
                 if (j == 0){
-                    if (f7 > paramTimeTodayChartData.getYestclose()){
+                    if (f7 >= paramTimeTodayChartData.getYestclose()){
                         l = upColor;
                     } else {
                         l = downColor;
@@ -298,12 +301,10 @@ public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData> {
                 paramPaint.setStyle(Paint.Style.FILL);
                 if (j == 0){
                     paramCanvas.drawRect(left, f12, f5 + f1, volumeAreaBottom, paramPaint);
+                } else if (j == i) {
+                    paramCanvas.drawRect(f5 - f1, f12, right, volumeAreaBottom, paramPaint);
                 } else {
-                    if (j == i){
-                        paramCanvas.drawRect(f5 - f1, f12, right, volumeAreaBottom, paramPaint);
-                    } else {
-                        paramCanvas.drawRect(f5 - f1, f12, f5 + f1, volumeAreaBottom, paramPaint);
-                    }
+                    paramCanvas.drawRect(f5 - f1, f12, f5 + f1, volumeAreaBottom, paramPaint);
                 }
                 f6 = f7;
                 j++;
@@ -321,6 +322,7 @@ public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData> {
             paramPaint.setStyle(Paint.Style.STROKE);
             paramPaint.setStrokeWidth(2.0f * dpUnit);
             paramCanvas.drawPath(pricePath, paramPaint);
+
             if (paramTimeTodayChartData.getHigh() != paramTimeTodayChartData.getLow()){
                 paramPaint.setColor(avgPriceLineColor);
                 paramPaint.setStrokeWidth(2.0f * dpUnit);

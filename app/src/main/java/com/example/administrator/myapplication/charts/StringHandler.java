@@ -12,9 +12,10 @@ public class StringHandler {
     }
 
     public static String formatPercent(double paramDouble, int paramInt, boolean paramBoolean1, boolean paramBoolean2){
-        StringBuilder  localStringBuilder = new StringBuilder("%");
-        localStringBuilder.append(".").append(paramInt).append("f");
-        return String.format(localStringBuilder.toString(), paramDouble);
+//        StringBuilder  localStringBuilder = new StringBuilder("%");
+//        localStringBuilder.append(".").append(paramInt).append("f");
+//        return String.format(localStringBuilder.toString(), paramDouble);
+        return (new StringBuilder()).append(formatDouble(100 * paramDouble, paramInt, paramBoolean1, paramBoolean2)).append("%").toString();
     }
 
 }
