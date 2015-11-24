@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.android.volley.NetworkResponse;
+import com.android.volley.ParseError;
 import com.android.volley.Response;
 import com.example.administrator.myapplication.charts.utils.GsonUtils;
 
@@ -21,18 +22,25 @@ public class Gson4MapRequest extends GsonRequest<Map<String, Object>>{
     }
 
 
-    protected String dealResultJson(String paramString){
-        String str = paramString;
-        if (paramString.startsWith("_ntes_quote_callback")){
-            str = paramString.substring(21, paramString.length() - 2);
-        }
-        return str;
+    protected String dealResultJson(String s)
+    {
+        String s1 = s;
+        if(s.startsWith("_ntes_quote_callback"))
+            s1 = s.substring(21, -2 + s.length());
+        return s1;
     }
 
     @Override
     protected Response<Map<String, Object>> parseNetworkResponse(NetworkResponse paramNetworkResponse) {
         Log.d(TAG, "parseNetworkResponse " + new String(paramNetworkResponse.data));
-        return  Response.success(GsonUtils.getMap(getResponseStr(paramNetworkResponse)), getCacheEntry(paramNetworkResponse));
+        Response response;
+        try {
+            response = Response.success(GsonUtils.getMap(dealResultJson(getResponseStr(paramNetworkResponse))), getCacheEntry(paramNetworkResponse));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.error(new ParseError(e));
+        }
+        return response;
 
     }
 

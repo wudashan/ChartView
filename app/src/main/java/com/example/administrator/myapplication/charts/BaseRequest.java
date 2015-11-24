@@ -55,15 +55,15 @@ public class BaseRequest<T> extends Request<T>{
         }
 //        paramMap.put("User-Agent", UA_DEFAULT + UA_APP_SUFFIX);
 //        paramMap.put("Referer", "http://i.money.163.com/");
-        paramMap.put("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
-        paramMap.put("Accept-Encoding", "gzip");
-        paramMap.put("Accept-Language", "zh-CN,zh;q=0.8");
-        paramMap.put("Cache-Control", "max-age=0");
-        paramMap.put("Connection", "keep-alive");
-        paramMap.put("Host", "img1.money.126.net");
+//        paramMap.put("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
+//        paramMap.put("Accept-Encoding", "gzip, deflate, sdch");
+//        paramMap.put("Accept-Language", "zh-CN,zh;q=0.8");
+//        paramMap.put("Cache-Control", "max-age=0");
+//        paramMap.put("Connection", "keep-alive");
+//        paramMap.put("Host", "img1.money.126.net");
 //        paramMap.put("If-Modified-Since", "Fri, 20 Nov 2015 07:01:10 GMT");
-        paramMap.put("Upgrade-Insecure-Requests", "1");
-        paramMap.put("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.80 Safari/537.36");
+//        paramMap.put("Upgrade-Insecure-Requests", "1");
+//        paramMap.put("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.80 Safari/537.36");
         this.headers = paramMap;
         this.listener = paramListener;
         setRetryPolicy(new DefaultRetryPolicy(2000, 2, 0.5f));
