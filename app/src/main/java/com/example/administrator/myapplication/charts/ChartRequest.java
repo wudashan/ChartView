@@ -19,7 +19,7 @@ public static class TimeTodayDataRequest extends Gson4MapRequest {
 
     public TimeTodayDataRequest(Context paramContext, String paramString1, String paramString2, Response.Listener<Map<String, Object>> paramListener, Response.ErrorListener paramErrorListener) {
         super(paramContext,String.format("http://img1.money.126.net/data/%s/time/today/%s.json", paramString1.toLowerCase(),paramString2), null, paramListener, paramErrorListener);
-        Log.d(TAG, "TimeTodayDataRequest");
+//        Log.d(TAG, "TimeTodayDataRequest");
     }
 }
 

@@ -45,7 +45,7 @@ public class BaseRequest<T> extends Request<T>{
 
     public BaseRequest(Context paramContext, int paramInt, String paramString, Map<String, String> paramMap, Response.Listener<T> paramListener, Response.ErrorListener paramErrorListenr){
         super(paramInt, paramString, paramErrorListenr);
-        Log.d(TAG, "BaseRequest");
+//        Log.d(TAG, "BaseRequest");
         this.mContext = paramContext;
         if (UA_APP_SUFFIX == null){
             UA_APP_SUFFIX = HttpUtils.getUserAgentSuffix(paramContext);
@@ -71,7 +71,7 @@ public class BaseRequest<T> extends Request<T>{
 
     @Override
     protected Response<T> parseNetworkResponse(NetworkResponse paramNetworkResponse) {
-        Log.d(TAG, "parseNetworkResponse");
+//        Log.d(TAG, "parseNetworkResponse");
         if (this.mHandler != null){
             return this.mHandler.parseResponse(paramNetworkResponse);
         }
@@ -80,7 +80,7 @@ public class BaseRequest<T> extends Request<T>{
 
     @Override
     protected void deliverResponse(T paramT) {
-        Log.d(TAG, "deliverResponse");
+//        Log.d(TAG, "deliverResponse");
         if (this.listener != null){
             this.listener.onResponse(paramT);
         }

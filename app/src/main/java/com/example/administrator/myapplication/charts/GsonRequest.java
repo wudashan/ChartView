@@ -36,7 +36,7 @@ public class GsonRequest<T> extends BaseRequest<T> {
         if (!TextUtils.isEmpty(this.mCharset)){
             String localStr = this.mCharset;
             try {
-                Log.d(TAG,  new String(paramNetworkResponse.data, "utf-8"));
+//                Log.d(TAG,  new String(paramNetworkResponse.data, "utf-8"));
 
                 return new String (paramNetworkResponse.data, mCharset);
 //                return new String(paramNetworkResponse.data, HttpHeaderParser.parseCharset(paramNetworkResponse.headers));
@@ -50,7 +50,7 @@ public class GsonRequest<T> extends BaseRequest<T> {
 
     @Override
     protected Response<T> parseNetworkResponse(NetworkResponse paramNetworkResponse) {
-        Log.d(TAG, "parseNetworkResponse");
+//        Log.d(TAG, "parseNetworkResponse");
         String str = getResponseStr(paramNetworkResponse);
         return Response.success(this.gson.fromJson(str,this.clazz), getCacheEntry(paramNetworkResponse));
     }

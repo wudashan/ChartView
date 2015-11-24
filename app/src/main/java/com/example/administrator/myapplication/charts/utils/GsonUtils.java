@@ -19,7 +19,7 @@ public class GsonUtils {
 
 
     public static Map<String, Object> getMap(String paramString){
-        Log.d(TAG, paramString);
+//        Log.d(TAG, paramString);
         TypeToken local2 = new TypeToken<Map<String, Object>>(){
         };
 

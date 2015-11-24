@@ -154,7 +154,7 @@ public class TimeTodayChartData implements ChartData{
     }
 
     private void loadData() {
-        Log.d(TAG, "loadData");
+//        Log.d(TAG, "loadData");
         ResponseListener localResponseListener = new ResponseListener();
 //        Log.d(TAG, "this.market: " + this.market);
         ChartRequest.TimeTodayDataRequest localTimeTodayDataRequest = new ChartRequest.TimeTodayDataRequest(this.chartView.getContext(), this.market, this.code, localResponseListener, localResponseListener);
@@ -297,7 +297,7 @@ public class TimeTodayChartData implements ChartData{
 
         @Override
         public void onErrorResponse(VolleyError paramVolleyError) {
-            Log.d(TAG, "onErrorResponse");
+//            Log.d(TAG, "onErrorResponse");
             if (paramVolleyError.networkResponse != null && paramVolleyError.networkResponse.statusCode == 404){
                 chartView.redrawChart();
             }
@@ -305,7 +305,7 @@ public class TimeTodayChartData implements ChartData{
 
         @Override
         public void onResponse(Map<String, Object> paramMap) {
-            Log.d(TAG, "onResponse");
+//            Log.d(TAG, "onResponse");
             addData(paramMap);
             chartView.redrawChart();
         }

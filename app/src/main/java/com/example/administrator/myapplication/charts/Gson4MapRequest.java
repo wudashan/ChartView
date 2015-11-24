@@ -32,7 +32,7 @@ public class Gson4MapRequest extends GsonRequest<Map<String, Object>>{
 
     @Override
     protected Response<Map<String, Object>> parseNetworkResponse(NetworkResponse paramNetworkResponse) {
-        Log.d(TAG, "parseNetworkResponse " + new String(paramNetworkResponse.data));
+//        Log.d(TAG, "parseNetworkResponse " + new String(paramNetworkResponse.data));
         Response response;
         try {
             response = Response.success(GsonUtils.getMap(dealResultJson(getResponseStr(paramNetworkResponse))), getCacheEntry(paramNetworkResponse));

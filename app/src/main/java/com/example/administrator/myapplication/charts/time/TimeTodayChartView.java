@@ -176,11 +176,11 @@ public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData> {
         this.priceLabels[3] = formatPrice(this.lowerLimit + difference / 2.0f);
         this.priceLabels[4] = formatPrice(this.lowerLimit);
 
-        Log.d(TAG, difference + " " + yestclose);
+//        Log.d(TAG, difference + " " + yestclose);
         String totalPercent = StringHandler.formatPercent(difference / yestclose, 2, false, false);
         String halfPercent = StringHandler.formatPercent(0.5 * (difference / yestclose), 2, false, false);
         this.pricePercentLabels[0] = "+" + totalPercent;
-        Log.d(TAG, pricePercentLabels[0]);
+//        Log.d(TAG, pricePercentLabels[0]);
         this.pricePercentLabels[1] = "+" + halfPercent;
         this.pricePercentLabels[2] = "0";
         this.pricePercentLabels[3] = "-" + halfPercent;
@@ -276,11 +276,11 @@ public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData> {
             if (j == 0) {
                 pricePath.moveTo(f5, f10);
                 avgPricePath.moveTo(f5, f11);
-                Log.d(TAG, f5 + " " + f10);
+//                Log.d(TAG, f5 + " " + f10);
             } else {
                 pricePath.lineTo(f5, f10);
                 avgPricePath.lineTo(f5, f11);
-                Log.d(TAG, f5 + " " + f10);
+//                Log.d(TAG, f5 + " " + f10);
             }
             if (j == 0) {
                 if (f7 >= paramTimeTodayChartData.getYestclose()) {
