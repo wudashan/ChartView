@@ -1,4 +1,4 @@
-#ChartView
+#ChartView For Android
 一个股价实时显示图控件。
 如下图，某日的上证指数的数据：
 ![image](https://github.com/wudashan/ChartView/blob/master/app/src/main/resultPicture/Image.png)
