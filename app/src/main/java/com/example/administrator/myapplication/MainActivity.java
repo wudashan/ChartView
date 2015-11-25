@@ -15,10 +15,13 @@ public class MainActivity extends AppCompatActivity {
 
     private TimeTodayChartView mTimeTodayChartView;
     private static final Handler mHandler = new Handler();
-    private Thread mThread = new Thread(new Runnable() {
+    private ChartThread mThread = new ChartThread();
+
+    public class ChartThread extends Thread{
+        public volatile boolean exit = false;
         @Override
         public void run() {
-            while (true){
+            while (!exit){
                 try {
                     Thread.sleep(5 * 1000);
                 } catch (InterruptedException e) {
@@ -32,7 +35,8 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         }
-    });
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +63,12 @@ public class MainActivity extends AppCompatActivity {
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        mThread.exit = true;
+        super.onDestroy();
     }
 }
 
