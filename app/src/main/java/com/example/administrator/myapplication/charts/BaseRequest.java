@@ -54,6 +54,7 @@ public class BaseRequest<T> extends Request<T>{
             paramMap = new HashMap<>();
         }
 //        paramMap.put("User-Agent", UA_DEFAULT + UA_APP_SUFFIX);
+//        Log.d(TAG, "BaseRequest " + UA_DEFAULT + UA_APP_SUFFIX);
 //        paramMap.put("Referer", "http://i.money.163.com/");
 //        paramMap.put("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
 //        paramMap.put("Accept-Encoding", "gzip, deflate, sdch");
