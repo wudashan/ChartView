@@ -1,11 +1,14 @@
 package com.example.administrator.myapplication.charts.time;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import com.example.administrator.myapplication.charts.AbstractChartView;
 import com.example.administrator.myapplication.charts.StringHandler;
@@ -19,10 +22,11 @@ import java.util.List;
 public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData> {
 
     private static final String TAG = "TimeTodayChartView";
+    private Context context;
     private Path avgPricePath = new Path();
     private TimeChartCursor cursor;
     public float height;
-    private List<TimeChartCursor> items = new ArrayList<>();
+    public List<TimeChartCursor> items = new ArrayList<>();
     public float left;
     private float lowerLimit;
     private float maxX;
@@ -40,9 +44,12 @@ public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData> {
     public float volumeAreaTop;
     private String[] volumeLabels = new String[4];
     public float width;
+    private TimeTodayCursorView timeTodayCursorView;
+//    private Canvas canvas;
 
     public TimeTodayChartView(Context context, String paramString1, String paramString2) {
         super(context, paramString1, paramString2);
+        this.context = context;
         this.paint = new Paint();
         this.paint.setAntiAlias(true);
         this.paint.setTextSize(this.fontSize);
@@ -154,7 +161,7 @@ public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData> {
     protected void initViewData(Canvas paramCanvas, TimeTodayChartData paramTimeTodayChartData) {
         this.width = getWidth();
         this.height = getHeight();
-
+//        canvas = paramCanvas;
         float yestclose = paramTimeTodayChartData.getYestclose();
         float priceMax = paramTimeTodayChartData.getHigh();
         float priceMin = paramTimeTodayChartData.getLow();
@@ -330,7 +337,16 @@ public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData> {
             paramCanvas.drawPath(avgPricePath, paramPaint);
         }
 
-
     }
 
+
+    @Override
+    public void onClick(View v) {
+//        Log.d(TAG, "onClick " + items.size());
+//        timeTodayCursorView = new TimeTodayCursorView(this);
+//        timeTodayCursorView.setCursor(items.get(20));
+//        timeTodayCursorView.draw(canvas);
+//        timeTodayCursorView.postInvalidate();
+//        super.onClick(v);
+    }
 }

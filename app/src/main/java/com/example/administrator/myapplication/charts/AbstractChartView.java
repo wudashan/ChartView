@@ -185,7 +185,6 @@ public abstract class AbstractChartView<T extends ChartData> extends RefreshLoad
 
     @Override
     public void onClick(View v) {
-
     }
 
     public void redrawChart(){
