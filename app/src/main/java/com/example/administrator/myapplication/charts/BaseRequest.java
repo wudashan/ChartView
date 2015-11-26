@@ -21,7 +21,7 @@ import java.util.Map;
  */
 public class BaseRequest<T> extends Request<T>{
     //new feature start
-    //123
+
     private static final String TAG = "BaseRequest";
     private static String UA_APP_SUFFIX = null;
     private static String UA_DEFAULT = System.getProperty("http.agent", "");
