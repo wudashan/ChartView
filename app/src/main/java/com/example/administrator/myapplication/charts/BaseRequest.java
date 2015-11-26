@@ -20,6 +20,7 @@ import java.util.Map;
  * Created by wudashan on 2015/11/19 0019.
  */
 public class BaseRequest<T> extends Request<T>{
+    //new feature start
 
     private static final String TAG = "BaseRequest";
     private static String UA_APP_SUFFIX = null;
