@@ -102,7 +102,7 @@ public class ChartView extends RelativeLayout implements RefreshLoadingView.Load
 
     public void onCursorRemoved(){
         this.timeTodayCursorView.setCursor(null);
-        this.timeTodayChartView.postInvalidate();
+        this.timeTodayCursorView.postInvalidate();
     }
 
 
