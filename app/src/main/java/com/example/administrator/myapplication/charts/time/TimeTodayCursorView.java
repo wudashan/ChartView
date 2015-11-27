@@ -105,7 +105,7 @@ public class TimeTodayCursorView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         if (this.cursor != null){
-            Log.d(TAG, "onDraw");
+//            Log.d(TAG, "onDraw");
             canvas.drawColor(0);
             this.paint.setAntiAlias(true);
             this.paint.setColor(this.chartView.indicatorColor);

@@ -44,7 +44,7 @@ public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData> {
     public float volumeAreaTop;
     private String[] volumeLabels = new String[4];
     public float width;
-    private TimeTodayCursorView timeTodayCursorView;
+//    private TimeTodayCursorView timeTodayCursorView;
 //    private Canvas canvas;
 
     public TimeTodayChartView(Context context, String paramString1, String paramString2) {
