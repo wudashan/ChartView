@@ -2,6 +2,9 @@ package com.example.administrator.myapplication.charts;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -11,10 +14,13 @@ import com.example.administrator.myapplication.charts.time.TimeChartCursor;
 import com.example.administrator.myapplication.charts.time.TimeTodayChartView;
 import com.example.administrator.myapplication.charts.time.TimeTodayCursorView;
 
+import java.util.Iterator;
+
 /**
  * Created by wudashan on 2015/11/27 0027.
  */
 public class ChartView extends RelativeLayout implements RefreshLoadingView.LoadingViewListener{
+    private static final String TAG = "ChartView";
 //    private static final String TAG_5TODAY = "TAG_5TODAY";
 //    private static final String TAG_KDAY = "TAG_KDAY";
 //    private static final String TAG_KMONTH = "TAG_KMONTH";
@@ -84,11 +90,13 @@ public class ChartView extends RelativeLayout implements RefreshLoadingView.Load
         onTimeChartCursor(timeChartCursor, s);
     }
 
+
+
     public void refreshChart(){
         timeTodayChartView.refreshChart();
         ///test
-        int size = timeTodayChartView.items.size();
-        onTimeTodayChartCursor(timeTodayChartView.items.get(size - 1), "");
+//        int size = timeTodayChartView.items.size();
+//        onTimeTodayChartCursor(timeTodayChartView.items.get(size - 1), "");
         ///test
     }
 
@@ -96,7 +104,6 @@ public class ChartView extends RelativeLayout implements RefreshLoadingView.Load
         this.timeTodayCursorView.setCursor(null);
         this.timeTodayChartView.postInvalidate();
     }
-
 
 
 
@@ -109,6 +116,63 @@ public class ChartView extends RelativeLayout implements RefreshLoadingView.Load
     public void showAutoLoading(View paramView) {
 
     }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        return true;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        float f = event.getX();
+        if (timeTodayChartView.maxX >= timeTodayChartView.left){
+            if (f < timeTodayChartView.left){
+                f = timeTodayChartView.left;
+            }
+            if (f > timeTodayChartView.maxX){
+                f = timeTodayChartView.maxX;
+            }
+            Iterator<TimeChartCursor> iterator = timeTodayChartView.items.iterator();
+            boolean flag1;
+            do {
+                boolean flag = iterator.hasNext();
+                flag1 = false;
+                if (!flag){
+                    break;
+                }
+                TimeChartCursor timeChartCursor = iterator.next();
+                if (timeChartCursor.x < f){
+                    continue;
+                }
+                timeTodayChartView.cursor = timeChartCursor;
+                flag1 = true;
+                break;
+            } while (true);
+            if (!flag1){
+                timeTodayChartView.cursor = timeTodayChartView.items.get(timeTodayChartView.items.size() - 1);
+            }
+//            this.onTimeTodayChartCursor(cursor, paramT.getTouchVolumeUnit());
+        }
+        switch (event.getAction()){
+            case MotionEvent.ACTION_DOWN:
+//                Log.d(TAG, "onTouchEvent:ACTION_DOWN");
+                onTimeTodayChartCursor(timeTodayChartView.cursor, "");
+                break;
+            case MotionEvent.ACTION_MOVE:
+//                Log.d(TAG, "onTouchEvent:ACTION_MOVE");
+                onTimeTodayChartCursor(timeTodayChartView.cursor, "");
+                break;
+            case MotionEvent.ACTION_UP:
+//                Log.d(TAG, "onTouchEvent:ACTION_UP");
+                onCursorRemoved();
+                break;
+        }
+//        Log.d(TAG, "onTouchEvent:" + event.getRawX());
+        return true;
+    }
+
+
+
 
 
     public  interface FullScreenListener{

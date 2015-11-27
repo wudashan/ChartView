@@ -22,12 +22,12 @@ public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData> {
     private static final String TAG = "TimeTodayChartView";
     private Context context;
     private Path avgPricePath = new Path();
-    private TimeChartCursor cursor;
+    public TimeChartCursor cursor;
     public float height;
     public List<TimeChartCursor> items = new ArrayList<>();
     public float left;
     private float lowerLimit;
-    private float maxX;
+    public float maxX;
     private Paint paint;
     private Path path = new Path();
     public float priceAreaBottom;
