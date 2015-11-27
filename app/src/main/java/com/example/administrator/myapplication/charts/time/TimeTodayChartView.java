@@ -1,19 +1,17 @@
 package com.example.administrator.myapplication.charts.time;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.util.Log;
 import android.view.MotionEvent;
-import android.view.View;
-import android.widget.LinearLayout;
 
 import com.example.administrator.myapplication.charts.AbstractChartView;
+import com.example.administrator.myapplication.charts.ChartView;
 import com.example.administrator.myapplication.charts.StringHandler;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -44,12 +42,13 @@ public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData> {
     public float volumeAreaTop;
     private String[] volumeLabels = new String[4];
     public float width;
+    private ChartView chartView;
 //    private TimeTodayCursorView timeTodayCursorView;
 //    private Canvas canvas;
 
-    public TimeTodayChartView(Context context, String paramString1, String paramString2) {
-        super(context, paramString1, paramString2);
-        this.context = context;
+    public TimeTodayChartView(ChartView chartView, String paramString1, String paramString2) {
+        super(chartView, paramString1, paramString2);
+        this.chartView = chartView;
         this.paint = new Paint();
         this.paint.setAntiAlias(true);
         this.paint.setTextSize(this.fontSize);
@@ -76,18 +75,18 @@ public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData> {
         String[] arrayOfString = paramTimeTodayChartData.getTimeLabelValues();
 
         for (int i = 0, j = arrayOfInt.length; i < j; i++) {
+            float f6 = this.left + f1 * (float)(arrayOfInt[i] - 1);
             if (i == 0) {
                 paramPaint.setTextAlign(Paint.Align.LEFT);
-            }
-            if (i == j - 1) {
+            } else if (i == j - 1) {
                 paramPaint.setTextAlign(Paint.Align.RIGHT);
+            } else {
+                paramPaint.setTextAlign(Paint.Align.CENTER);
+                this.path.moveTo(f6, this.priceAreaTop);
+                this.path.lineTo(f6, this.priceAreaBottom);
+                this.path.moveTo(f6, this.volumeAreaTop);
+                this.path.lineTo(f6, this.volumeAreaBottom);
             }
-            float f6 = this.left + f1 * (arrayOfInt[i] - 1);
-            paramPaint.setTextAlign(Paint.Align.CENTER);
-            this.path.moveTo(f6, this.priceAreaTop);
-            this.path.lineTo(f6, this.priceAreaBottom);
-            this.path.moveTo(f6, this.volumeAreaTop);
-            this.path.lineTo(f6, this.volumeAreaBottom);
             paramCanvas.drawText(arrayOfString[i], f6, f4, paramPaint);
         }
         this.path.moveTo(this.left, f2 + this.priceAreaTop);
@@ -138,23 +137,49 @@ public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData> {
 
     @Override
     protected void onCursor(Canvas paramCanvas, TimeTodayChartData paramT, MotionEvent paramMotionEvent) {
-
+        float f = paramMotionEvent.getX();
+        if (maxX >= left){
+            if (f < left){
+                f = left;
+            }
+            if (f > maxX){
+                f = maxX;
+            }
+            Iterator<TimeChartCursor> iterator = items.iterator();
+            boolean flag1;
+            do {
+                boolean flag = iterator.hasNext();
+                flag1 = false;
+                if (!flag){
+                    break;
+                }
+                TimeChartCursor timeChartCursor = iterator.next();
+                if (timeChartCursor.x < f){
+                    continue;
+                }
+                cursor = timeChartCursor;
+                flag1 = true;
+                break;
+            } while (true);
+            if (!flag1){
+                cursor = items.get(items.size() - 1);
+            }
+            chartView.onTimeTodayChartCursor(cursor, paramT.getTouchVolumeUnit());
+        }
     }
 
     @Override
     protected void onMove(Canvas paramCanvas, TimeTodayChartData paramT, MotionEvent paramMotionEvent) {
-
     }
 
     @Override
     protected void onRemoveCursor(Canvas paramCanvas, TimeTodayChartData paramT, MotionEvent paramMotionEvent) {
-
+        this.chartView.onCursorRemoved();
     }
 
 
     @Override
     protected void onZoom(Canvas paramCanvas, TimeTodayChartData paramT, float paramFloat) {
-
     }
 
     @Override
@@ -339,14 +364,4 @@ public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData> {
 
     }
 
-
-    @Override
-    public void onClick(View v) {
-//        Log.d(TAG, "onClick " + items.size());
-//        timeTodayCursorView = new TimeTodayCursorView(this);
-//        timeTodayCursorView.setCursor(items.get(20));
-//        timeTodayCursorView.draw(canvas);
-//        timeTodayCursorView.postInvalidate();
-//        super.onClick(v);
-    }
 }

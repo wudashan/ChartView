@@ -171,6 +171,13 @@ public class TimeTodayChartData implements ChartData{
         return paramFloat;
     }
 
+    public String getTouchVolumeUnit(){
+        if ("HS".equals(this.market) && "万手".equals(this.volumeUnit)){
+            return "手";
+        }
+        return this.volumeUnit;
+    }
+
     public int getCount() {
         return count;
     }

@@ -79,11 +79,11 @@ public abstract class AbstractChartView<T extends ChartData> extends RefreshLoad
 
 
 
-    public AbstractChartView(Context paramContext, String paramString1, String paramString2) {
-        super(paramContext);
+    public AbstractChartView(ChartView chartView, String paramString1, String paramString2) {
+        super(chartView.getContext());
         this.market = paramString1;
         this.code = paramString2;
-        Resources localResources = paramContext.getResources();
+        Resources localResources = chartView.getResources();
         this.dpUnit = localResources.getDimension(R.dimen.dpUnit);
         this.marginVertical = localResources.getDimension(R.dimen.chart_margin_vertical);
         this.marginHorizontal = localResources.getDimension(R.dimen.chart_margin_horizontal);
@@ -122,8 +122,8 @@ public abstract class AbstractChartView<T extends ChartData> extends RefreshLoad
 //        });
         this.paint = new Paint();
         this.paint.setAntiAlias(true);
-        this.vibrator = (Vibrator) paramContext.getSystemService(Context.VIBRATOR_SERVICE);
-        ViewConfiguration localViewConfiguration = ViewConfiguration.get(paramContext);
+        this.vibrator = (Vibrator) chartView.getContext().getSystemService(Context.VIBRATOR_SERVICE);
+        ViewConfiguration localViewConfiguration = ViewConfiguration.get(chartView.getContext());
 //        this.longPressTimeOut = 400;
         this.mTouchSlopSquare = localViewConfiguration.getScaledTouchSlop() * localViewConfiguration.getScaledTouchSlop();
 

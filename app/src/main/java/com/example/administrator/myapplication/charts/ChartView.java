@@ -4,10 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.RelativeLayout;
-import android.widget.TabHost;
-import android.widget.TabWidget;
 import android.widget.TextView;
 
 import com.example.administrator.myapplication.charts.time.TimeChartCursor;
@@ -32,10 +29,10 @@ public class ChartView extends RelativeLayout implements RefreshLoadingView.Load
 //    private TextView mBackButton;
 //    private ImageButton mRefreshButton;
 //    private TextView mStockinfo;
-    private TextView mTimeCursorAvgPrice;
-    private TextView mTimeCursorPrice;
-    private TextView mTimeCursorTime;
-    private TextView mTimeCursorVolume;
+//    private TextView mTimeCursorAvgPrice;
+//    private TextView mTimeCursorPrice;
+//    private TextView mTimeCursorTime;
+//    private TextView mTimeCursorVolume;
 //    private View refreshLoading;
     private ViewGroup root;
 //    private TabWidget tabWidget;
@@ -61,21 +58,23 @@ public class ChartView extends RelativeLayout implements RefreshLoadingView.Load
     public void initLayout(String stockType, String stockCode){
         setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 500));
 
-        timeTodayChartView = new TimeTodayChartView(getContext(), stockType, stockCode);
+        timeTodayChartView = new TimeTodayChartView(this, stockType, stockCode);
         addView(timeTodayChartView);
         timeTodayCursorView = new TimeTodayCursorView(timeTodayChartView);
         addView(timeTodayCursorView);
     }
 
     private void onTimeChartCursor(TimeChartCursor timeChartCursor, String s){
-//        mTimeCursorAvgPrice.setText(timeTodayChartView.formatPrice(timeChartCursor.price) + "(" + StringHandler.formatPercent(timeChartCursor.percent, 2, false, false) + ")");
+//        String temp = timeTodayChartView.formatPrice(timeChartCursor.price) + "(" + StringHandler.formatPercent(timeChartCursor.percent, 2, false, false) + ")";
+//        mTimeCursorAvgPrice.setText(temp);
 //        if (timeChartCursor.percent >= 0.0f){
 //            mTimeCursorPrice.setTextColor(timeTodayChartView.upColor);
 //        } else {
 //            mTimeCursorPrice.setTextColor(timeTodayChartView.downColor);
 //        }
 //        mTimeCursorAvgPrice.setText(timeTodayChartView.formatPrice(timeChartCursor.avgPrice));
-//        mTimeCursorVolume.setText(timeChartCursor.volumeForTouch + s);
+//        temp = timeChartCursor.volumeForTouch + s;
+//        mTimeCursorVolume.setText(temp);
 //        mTimeCursorTime.setText(timeChartCursor.time);
     }
 
@@ -87,9 +86,16 @@ public class ChartView extends RelativeLayout implements RefreshLoadingView.Load
 
     public void refreshChart(){
         timeTodayChartView.refreshChart();
-        onTimeTodayChartCursor(timeTodayChartView.items.get(100), "s");
+        ///test
+        int size = timeTodayChartView.items.size();
+        onTimeTodayChartCursor(timeTodayChartView.items.get(size - 1), "");
+        ///test
     }
 
+    public void onCursorRemoved(){
+        this.timeTodayCursorView.setCursor(null);
+        this.timeTodayChartView.postInvalidate();
+    }
 
 
 

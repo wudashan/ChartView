@@ -3,7 +3,6 @@ package com.example.administrator.myapplication.charts.time;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.util.Log;
 import android.view.View;
 
 import com.example.administrator.myapplication.charts.StringHandler;
@@ -128,6 +127,7 @@ public class TimeTodayCursorView extends View {
             drawPercentLabel(canvas, this.cursor);
             drawVolumeLabel(canvas, this.cursor);
             drawTimeLabel(canvas, this.cursor);
+
         }
     }
 
