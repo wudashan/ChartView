@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity{
     private TimeTodayChartView mTimeTodayChartView;
     private TimeTodayCursorView mTimeTodayCursorView;
     private static final Handler mHandler = new Handler();
-    private ChartThread mThread = new ChartThread();
+    private ChartThread mThread;
     private ChartView chartView;
 
 
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity{
         layout.addView(chartView);
         setContentView(layout);
 
-        mThread.start();
+
 
 
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -74,12 +74,19 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mThread = new ChartThread();
+        mThread.start();
+    }
 
     @Override
-    protected void onDestroy() {
+    protected void onPause() {
         mThread.exit = true;
-        super.onDestroy();
+        super.onPause();
     }
+
 }
 
 
