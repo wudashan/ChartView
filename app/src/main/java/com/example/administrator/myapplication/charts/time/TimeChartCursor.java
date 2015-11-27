@@ -17,7 +17,7 @@ public class TimeChartCursor {
     public float volumeY;
     public float x;
 
-    public TimeChartCursor(float avgPrice, float avePriceY, float percent, float percentCursor, float price, float priceY, String time, float volume, float volumeForTouch, float volumeY, float x) {
+    public TimeChartCursor(float x, float priceY, float avePriceY, float volumeY, String time, float price, float avgPrice, float percent, float percentCursor, float volume, float volumeForTouch) {
         this.avgPrice = avgPrice;
         this.avePriceY = avePriceY;
         this.percent = percent;

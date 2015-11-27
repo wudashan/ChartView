@@ -59,21 +59,24 @@ public class ChartView extends RelativeLayout implements RefreshLoadingView.Load
     }
 
     public void initLayout(String stockType, String stockCode){
-        timeTodayChartView = new TimeTodayChartView(getContext(), stockType, stockCode);
         setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 500));
+
+        timeTodayChartView = new TimeTodayChartView(getContext(), stockType, stockCode);
         addView(timeTodayChartView);
+        timeTodayCursorView = new TimeTodayCursorView(timeTodayChartView);
+        addView(timeTodayCursorView);
     }
 
     private void onTimeChartCursor(TimeChartCursor timeChartCursor, String s){
-        mTimeCursorAvgPrice.setText(timeTodayChartView.formatPrice(timeChartCursor.price) + "(" + StringHandler.formatPercent(timeChartCursor.percent, 2, false, false) + ")");
-        if (timeChartCursor.percent >= 0.0f){
-            mTimeCursorPrice.setTextColor(timeTodayChartView.upColor);
-        } else {
-            mTimeCursorPrice.setTextColor(timeTodayChartView.downColor);
-        }
-        mTimeCursorAvgPrice.setText(timeTodayChartView.formatPrice(timeChartCursor.avgPrice));
-        mTimeCursorVolume.setText(timeChartCursor.volumeForTouch + s);
-        mTimeCursorTime.setText(timeChartCursor.time);
+//        mTimeCursorAvgPrice.setText(timeTodayChartView.formatPrice(timeChartCursor.price) + "(" + StringHandler.formatPercent(timeChartCursor.percent, 2, false, false) + ")");
+//        if (timeChartCursor.percent >= 0.0f){
+//            mTimeCursorPrice.setTextColor(timeTodayChartView.upColor);
+//        } else {
+//            mTimeCursorPrice.setTextColor(timeTodayChartView.downColor);
+//        }
+//        mTimeCursorAvgPrice.setText(timeTodayChartView.formatPrice(timeChartCursor.avgPrice));
+//        mTimeCursorVolume.setText(timeChartCursor.volumeForTouch + s);
+//        mTimeCursorTime.setText(timeChartCursor.time);
     }
 
     public void onTimeTodayChartCursor(TimeChartCursor timeChartCursor, String s){
@@ -84,6 +87,7 @@ public class ChartView extends RelativeLayout implements RefreshLoadingView.Load
 
     public void refreshChart(){
         timeTodayChartView.refreshChart();
+        onTimeTodayChartCursor(timeTodayChartView.items.get(100), "s");
     }
 
 

@@ -304,7 +304,7 @@ public class TimeTodayChartView extends AbstractChartView<TimeTodayChartData> {
             }
             f12 = volumeAreaBottom - f9 * f3;
             f13 = (f7 - paramTimeTodayChartData.getYestclose()) / paramTimeTodayChartData.getYestclose();
-            items.add(new TimeChartCursor(f5, f10, f11, f12, f8, f7, s, f13, f13, f9, paramTimeTodayChartData.getTouchVolumeForHs(f9)));
+            items.add(new TimeChartCursor(f5, f10, f11, f12, s, f7, f8, f13, f13, f9, paramTimeTodayChartData.getTouchVolumeForHs(f9)));
             paramPaint.setColor(l);
             paramPaint.setStyle(Paint.Style.FILL);
             if (j == 0) {
